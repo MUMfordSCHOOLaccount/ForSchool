@@ -39,31 +39,20 @@ body {
    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-img#logo {
-   grid-column: span 3;
-   width: 100%;
-}
-
-nav.horizontalNavigation, footer {
-   grid-column: span 4;
-}
-
-ul#comments > li {
-   grid-column: span 2;
-}
-
 /* Row Styles */
 
-
-
-
+.row {
+   grid-column: 1 / span 4;
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 
 /* Page Header Styles */
 
-
-
-
-
+header.row > img#logo {
+   grid-column: 1 / span 3;
+   width: 100%;
+}
 
 /* Horizontal Navigation List Styles */
 
@@ -73,7 +62,7 @@ nav.horizontalNavigation li {
    float: left;
 }
 
-/* Section Styles */
+/* Topics Styles */
 
 ul#topics img {
    width: 50%;
@@ -85,19 +74,19 @@ ul#topics p {
    margin: 0 auto;
 }
 
-/* Topics Styles */
-
-
-
-
-
-
 /* HR Styles */
 
-
-
+hr {
+   grid-column: 1 / span 4;
+}
 
 /* Customer Comment Styles */
+
+ul#comments {
+   grid-column: 1 / span 4;
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
 
 ul#comments > li {
    width: 75%;
@@ -120,5 +109,9 @@ ul#comments > li p {
 }
 
 /* Footer Styles */
+
+footer {
+   grid-column: 1 / span 4;
+}
 
 
