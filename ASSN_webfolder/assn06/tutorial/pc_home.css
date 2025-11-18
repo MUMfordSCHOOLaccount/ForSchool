@@ -42,7 +42,7 @@ body > header > nav.horizontalNavigation li {
 
 nav.horizontalNavigation ul {
    display: block;
-   float: left;
+   width: 100%;
 }
 
 nav.horizontalNavigation a {
@@ -58,7 +58,7 @@ nav.horizontalNavigation li {
 
 /* Left Column Styles */
 
-section#leftcolumn {
+section#leftColumn {
    clear: left;
    float: left;
    padding: 1.5em;
