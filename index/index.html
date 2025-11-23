@@ -27,7 +27,6 @@
             padding: 20px;
             border-radius: 8px;
             border: 2px solid rgba(255, 235, 59, 0.3);
-            min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -42,8 +41,9 @@
         }
 
         .video-container iframe {
-            width: 100%;
-            height: 200px;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
             border: none;
             border-radius: 5px;
         }
@@ -260,19 +260,24 @@
                         <ol>
                             <li style="list-style: none; counter-increment: none;">
                                 <div class="video-container">
-                                    <iframe src="https://www.youtube.com/embed/videoseries?si=gxNxRBSX446kkLab&amp;list=PLy__jI0S-hVJauykt8ljZXY6jO04nTn2b" 
-                                            title="YouTube video player"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                            referrerpolicy="strict-origin-when-cross-origin"
-                                            allowfullscreen>
-                                    </iframe>
+                                    <a href="https://www.youtube.com/watch?v=NJIT61vxv78" target="_blank" style="text-decoration: none; display: block;">
+                                        <img src="https://img.youtube.com/vi/NJIT61vxv78/maxresdefault.jpg" 
+                                             alt="What is Star Citizen? The Definitive Guide in 2025" 
+                                             style="max-width: 100%; border-radius: 5px; cursor: pointer;">
+                                        <p style="margin-top: 15px; font-size: 1.2em;">
+                                            🎥 What is Star Citizen? The Definitive Guide in 2025
+                                        </p>
+                                        <p style="font-size: 0.9em; opacity: 0.9;">
+                                            (Click to watch on YouTube)
+                                        </p>
+                                    </a>
                                 </div>
                             </li>
                             <li>            
                                 Assignment 1 - HTML01, Tutorial 1
                                 <ul>
                                     <li>
-                                        <a href="../assn01/tutorial/ct_about.html">Curbside Thai</a>
+                                        <a href="../ASSN_webfolder/assn01/tutorial/ct_about.html">Curbside Thai</a>
                                         <img src="curbside_thai.png" alt="Curbside Thai preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -281,7 +286,7 @@
                                 Assignment 2 - HTML02
                                 <ul>
                                     <li>
-                                        <a href="../assn02/index.html">Index Page</a>
+                                        <a href="../ASSN_webfolder/assn02/index.html">Index Page</a>
                                         <img src="index_Html_Img.png" alt="Index Page preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -290,19 +295,19 @@
                                 Assignment 3 - HTML03, Review
                                 <ul>
                                     <li>
-                                        <a href="../assn03/review/mp_index.html">Mobile Panini - Home</a>
+                                        <a href="../ASSN_webfolder/assn03/review/mp_index.html">Mobile Panini - Home</a>
                                         <img src="MP_home.png" alt="Mobile Panini Home preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn03/review/mp_menu.html">Mobile Panini - Menu</a>
+                                        <a href="../ASSN_webfolder/assn03/review/mp_menu.html">Mobile Panini - Menu</a>
                                         <img src="MP_menu.png" alt="Mobile Panini Menu preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn03/review/mp_events.html">Mobile Panini - Events</a>
+                                        <a href="../ASSN_webfolder/assn03/review/mp_events.html">Mobile Panini - Events</a>
                                         <img src="MP_events.png" alt="Mobile Panini Events preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn03/review/mp_catering.html">Mobile Panini - Catering</a>
+                                        <a href="../ASSN_webfolder/assn03/review/mp_catering.html">Mobile Panini - Catering</a>
                                         <img src="mp_catering.png" alt="Mobile Panini Catering preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -311,11 +316,11 @@
                                 Assignment 4 - HTML04, Case 1
                                 <ul>
                                     <li>
-                                        <a href="../assn04/case1/jtc_index.html">J-Tip Consulting - Home</a>
+                                        <a href="../ASSN_webfolder/assn04/case1/jtc_index.html">J-Tip Consulting - Home</a>
                                         <img src="jtc_home.png" alt="J-Tip Consulting Home preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn04/case1/jtc_services.html">J-Tip Consulting - Services</a>
+                                        <a href="../ASSN_webfolder/assn04/case1/jtc_services.html">J-Tip Consulting - Services</a>
                                         <img src="jtc_services.png" alt="J-Tip Consulting Services preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -324,19 +329,19 @@
                                 Assignment 5 - HTML05, Tutorial
                                 <ul>
                                     <li>
-                                        <a href="../assn05/tutorial/tss_home.html">Tri and Succeed Sports - Home</a>
+                                        <a href="../ASSN_webfolder/assn05/tutorial/tss_home.html">Tri and Succeed Sports - Home</a>
                                         <img src="tss_home.png" alt="Tri and Succeed Sports Home preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn05/tutorial/tss_run.html">Tri and Succeed Sports - Running</a>
+                                        <a href="../ASSN_webfolder/assn05/tutorial/tss_run.html">Tri and Succeed Sports - Running</a>
                                         <img src="tss_running.png" alt="Tri and Succeed Sports Running preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn05/tutorial/tss_bike.html">Tri and Succeed Sports - Biking</a>
+                                        <a href="../ASSN_webfolder/assn05/tutorial/tss_bike.html">Tri and Succeed Sports - Biking</a>
                                         <img src="tss_biking.png" alt="Tri and Succeed Sports Biking preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn05/tutorial/tss_swim.html">Tri and Succeed Sports - Swimming</a>
+                                        <a href="../ASSN_webfolder/assn05/tutorial/tss_swim.html">Tri and Succeed Sports - Swimming</a>
                                         <img src="tss_swimming.png" alt="Tri and Succeed Sports Swimming preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -345,15 +350,15 @@
                                 Assignment 6 - HTML06, Tutorial
                                 <ul>
                                     <li>
-                                        <a href="../assn06/tutorial/pc_home.html">Pandaisia Chocolates - Home</a>
+                                        <a href="../ASSN_webfolder/assn06/tutorial/pc_home.html">Pandaisia Chocolates - Home</a>
                                         <img src="pc_home.png" alt="Pandaisia Chocolates Home preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn06/tutorial/pc_about.html">Pandaisia Chocolates - About</a>
+                                        <a href="../ASSN_webfolder/assn06/tutorial/pc_about.html">Pandaisia Chocolates - About</a>
                                         <img src="pc_about.png" alt="Pandaisia Chocolates About preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../assn06/tutorial/pc_info.html">Pandaisia Chocolates - Info</a>
+                                        <a href="../ASSN_webfolder/assn06/tutorial/pc_info.html">Pandaisia Chocolates - Info</a>
                                         <img src="pc_info.png" alt="Pandaisia Chocolates Info preview" class="thumbnail">
                                     </li>
                                 </ul>
@@ -362,12 +367,25 @@
                                 Assignment 7 - HTML07
                                 <ul>
                                     <li>
-                                        <a href="../case1/sp_home.html">Slate & Pencil Tutoring</a>
+                                        <a href="../ASSN_webfolder/assn07/case1/sp_home.html">Slate & Pencil Tutoring</a>
                                         <img src="sp_home.png" alt="Slate & Pencil Tutoring preview" class="thumbnail">
                                     </li>
                                     <li>
-                                        <a href="../case3/ss_dday.html">A Soldier's Scrapbook - D-Day</a>
+                                        <a href="../ASSN_webfolder/assn07/case3/ss_dday.html">A Soldier's Scrapbook - D-Day</a>
                                         <img src="ss_dday_home.png" alt="A Soldier's Scrapbook D-Day preview" class="thumbnail">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Assignment 8 - HTML08, Tutorial
+                                <ul>
+                                    <li>
+                                        <a href="tb_komatsu.html">Tree and Book - Komatsu Family</a>
+                                        <img src="tb_komatsu.png" alt="Tree and Book Komatsu Family preview" class="thumbnail">
+                                    </li>
+                                    <li>
+                                        <a href="tb_genta.html">Tree and Book - Genta Gallery</a>
+                                        <img src="tb_genta1.png" alt="Tree and Book Genta Gallery preview" class="thumbnail">
                                     </li>
                                 </ul>
                             </li>
