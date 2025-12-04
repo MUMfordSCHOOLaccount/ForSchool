@@ -140,10 +140,11 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            transition: transform 0.3s, background-color 0.3s;
+            transition: transform 0.3s, background-color 0.3s, min-height 0.3s;
             border: 2px solid rgba(255, 235, 59, 0.3);
             overflow: visible;
-            min-height: 250px;
+            min-height: 80px;
+            cursor: pointer;
         }
 
         article ol > li:hover {
@@ -161,6 +162,7 @@
             text-align: center;
             padding-bottom: 10px;
             border-bottom: 2px solid rgba(255, 235, 59, 0.3);
+            cursor: pointer;
         }
 
        
@@ -168,12 +170,42 @@
             content: "Something Fun";
         }
 
+        .assignment-title {
+            font-weight: bold;
+            font-size: 1em;
+            color: #ffeb3b;
+            text-align: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .assignment-title::after {
+            content: " ▼";
+            font-size: 0.8em;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .assignment-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
         article ul {
             list-style: none;
             padding: 0;
             margin: 0;
             flex-grow: 1;
-            overflow: visible;
+            overflow: hidden;
+            max-height: 1000px;
+            opacity: 1;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        article ul.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
         }
 
         article ul li {
@@ -393,6 +425,31 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                Assignment 9 - HTML09, Tutorial
+                                <ul>
+                                    <li>
+                                        <a href="ASSN_webfolder/assn09/tutorial/tf_home.html">Trusted Friends Daycare - Home</a>
+                                        <img src="tf_home_thumb.png" alt="Trusted Friends Daycare Home preview" class="thumbnail">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Assignment 9 - HTML09, Case 1
+                                <ul>
+                                    <li>
+                                        <a href="#">Coming Soon</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Assignment 10 - HTML10, Tutorial
+                                <ul>
+                                    <li>
+                                        <a href="#">Coming Soon</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ol>
                     
 
@@ -402,6 +459,31 @@
        
             </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all assignment list items
+            const assignments = document.querySelectorAll('article ol > li');
+            
+            assignments.forEach(assignment => {
+                const ul = assignment.querySelector('ul');
+                if (ul) {
+                    // Start collapsed
+                    ul.classList.add('collapsed');
+                    
+                    // Add click handler to the entire box
+                    assignment.addEventListener('click', function(e) {
+                        // Prevent link clicks from toggling
+                        if (e.target.tagName === 'A' || e.target.tagName === 'IMG') {
+                            return;
+                        }
+                        
+                        // Toggle the dropdown
+                        ul.classList.toggle('collapsed');
+                    });
+                }
+            });
+        });
+    </script>
     </body>
 
 </html>
