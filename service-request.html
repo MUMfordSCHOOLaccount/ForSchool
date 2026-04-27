@@ -252,7 +252,8 @@
     </div>
 
     <div class="card">
-      <p class="intro">Submit your request and a service number will be assigned automatically. Your default email app will open with all details pre-filled for quick sending. I will contact you within 24 hours and within the call time frame you provide below.</p>
+      <p class="intro">Submit your request and a service number will be assigned automatically. I will contact you within 24 hours and within the call time frame you provide below.</p>
+      <p class="small-help">First-time setup note: the form uses FormSubmit for email relay on static hosting. If FormSubmit sends you an activation email, confirm it once to enable delivery.</p>
 
       <form id="serviceForm" novalidate>
         <div class="field">
@@ -487,8 +488,56 @@
         return {
           subject: "New Service Request " + serviceNumber,
           bodyText,
-          previewText: bodyText
+          previewText: bodyText,
+          relayFields: {
+            _subject: "New Service Request " + serviceNumber,
+            _captcha: "false",
+            service_number: serviceNumber,
+            full_name: fullName,
+            phone_number: phone,
+            service_address: serviceAddress,
+            preferred_call_date: callDate,
+            call_window_start: callTimeStart,
+            call_window_end: callTimeEnd,
+            categories: selected.join(" | "),
+            hvac_unit_type: sanitize(fields.hvac.input.value),
+            computer_model: sanitize(fields.computer.input.value),
+            website_url: sanitize(fields.website.input.value),
+            bug_steps: sanitize(fields.bug.input.value),
+            detailed_description: details,
+            csv_row: csvRow,
+            commitment: "Contact within 24 hours and within requested call window."
+          }
         };
+      }
+
+      async function sendViaRelay(payload) {
+        const endpoint = "https://formsubmit.co/ajax/" + EMAIL_TO;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(payload.relayFields)
+        });
+
+        if (!response.ok) {
+          throw new Error("Relay response was not OK.");
+        }
+
+        const data = await response.json();
+        if (data && data.success === "false") {
+          throw new Error("Relay service returned an unsuccessful response.");
+        }
+      }
+
+      function openMailFallback(payload) {
+        const mailto = "mailto:" + EMAIL_TO +
+          "?subject=" + encodeURIComponent(payload.subject) +
+          "&body=" + encodeURIComponent(payload.bodyText);
+
+        window.location.href = mailto;
       }
 
       function validateCategoryRequirements() {
@@ -529,7 +578,7 @@
         }, 0);
       });
 
-      form.addEventListener("submit", function (e) {
+      form.addEventListener("submit", async function (e) {
         e.preventDefault();
         setStatus("", true);
 
@@ -552,13 +601,15 @@
         serviceNumberEl.textContent = serviceNumber;
         previewEl.textContent = payload.previewText;
         outputEl.classList.add("active");
-        setStatus("Request prepared. Opening your email app...", true);
+        setStatus("Submitting request...", true);
 
-        const mailto = "mailto:" + EMAIL_TO +
-          "?subject=" + encodeURIComponent(payload.subject) +
-          "&body=" + encodeURIComponent(payload.bodyText);
-
-        window.location.href = mailto;
+        try {
+          await sendViaRelay(payload);
+          setStatus("Request submitted successfully. Check your inbox for incoming request notifications.", true);
+        } catch (err) {
+          setStatus("Automatic send failed in this browser. Opening your email app as fallback...", false);
+          openMailFallback(payload);
+        }
       });
     })();
   </script>
