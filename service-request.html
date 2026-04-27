@@ -342,7 +342,6 @@
         <div class="field full">
           <div class="actions">
             <button type="submit" class="btn btn-primary">Submit Request</button>
-            <button type="button" id="testSendBtn" class="btn btn-secondary">Test Send</button>
             <button type="reset" class="btn btn-secondary">Clear Form</button>
           </div>
           <div id="status" class="status" role="status" aria-live="polite"></div>
@@ -361,7 +360,6 @@
   <script>
     (function () {
       const EMAIL_TO = "LDaleMumford@MonkeyIT.services";
-      const EMAIL_CC = "LDaleMumford@gmail.com";
       const COUNTER_KEY = "serviceRequestCounter";
       const BASE_NUMBER = 1000;
 
@@ -370,7 +368,6 @@
       const outputEl = document.getElementById("output");
       const serviceNumberEl = document.getElementById("serviceNumber");
       const previewEl = document.getElementById("preview");
-      const testSendBtn = document.getElementById("testSendBtn");
       const callDateEl = document.getElementById("callDate");
       const callTimeStartEl = document.getElementById("callTimeStart");
       const callTimeEndEl = document.getElementById("callTimeEnd");
@@ -495,7 +492,6 @@
           relayFields: {
             _subject: "New Service Request " + serviceNumber,
             _captcha: "false",
-            _cc: EMAIL_CC,
             service_number: serviceNumber,
             full_name: fullName,
             phone_number: phone,
@@ -536,24 +532,6 @@
         }
       }
 
-      async function sendTestEmail() {
-        const testId = "TEST-" + Date.now();
-        const testPayload = {
-          relayFields: {
-            _subject: "Service Form Test " + testId,
-            _captcha: "false",
-            _cc: EMAIL_CC,
-            test_id: testId,
-            destination: EMAIL_TO,
-            cc_destination: EMAIL_CC,
-            source_page: window.location.href,
-            sent_at_utc: new Date().toISOString(),
-            note: "This is a test message from the Service Request form."
-          }
-        };
-
-        await sendViaRelay(testPayload);
-      }
 
       function openMailFallback(payload) {
         const mailto = "mailto:" + EMAIL_TO +
@@ -635,15 +613,6 @@
         }
       });
 
-      testSendBtn.addEventListener("click", async function () {
-        setStatus("Sending test message...", true);
-        try {
-          await sendTestEmail();
-          setStatus("Test message sent. Check both MonkeyIT and Gmail inboxes (and spam/promotions).", true);
-        } catch (err) {
-          setStatus("Test send failed. You may need to activate FormSubmit for the destination address first.", false);
-        }
-      });
     })();
   </script>
 </body>
