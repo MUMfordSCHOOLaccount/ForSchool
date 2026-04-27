@@ -253,7 +253,7 @@
 
     <div class="card">
       <p class="intro">Submit your request and a service number will be assigned automatically. I will contact you within 24 hours and within the call time frame you provide below.</p>
-      <p class="small-help">First-time setup note: the form uses FormSubmit for email relay on static hosting. If FormSubmit sends you an activation email, confirm it once to enable delivery.</p>
+      <p class="small-help">First-time setup note: the form uses FormSubmit for email relay on static hosting. If FormSubmit sends an activation email to your destination inbox, confirm it once to enable delivery.</p>
 
       <form id="serviceForm" novalidate>
         <div class="field">
@@ -342,6 +342,7 @@
         <div class="field full">
           <div class="actions">
             <button type="submit" class="btn btn-primary">Submit Request</button>
+            <button type="button" id="testSendBtn" class="btn btn-secondary">Test Send</button>
             <button type="reset" class="btn btn-secondary">Clear Form</button>
           </div>
           <div id="status" class="status" role="status" aria-live="polite"></div>
@@ -359,7 +360,8 @@
 
   <script>
     (function () {
-      const EMAIL_TO = "LDaleMumford@gmail.com";
+      const EMAIL_TO = "LDaleMumford@MonkeyIT.services";
+      const EMAIL_CC = "LDaleMumford@gmail.com";
       const COUNTER_KEY = "serviceRequestCounter";
       const BASE_NUMBER = 1000;
 
@@ -368,6 +370,7 @@
       const outputEl = document.getElementById("output");
       const serviceNumberEl = document.getElementById("serviceNumber");
       const previewEl = document.getElementById("preview");
+      const testSendBtn = document.getElementById("testSendBtn");
       const callDateEl = document.getElementById("callDate");
       const callTimeStartEl = document.getElementById("callTimeStart");
       const callTimeEndEl = document.getElementById("callTimeEnd");
@@ -492,6 +495,7 @@
           relayFields: {
             _subject: "New Service Request " + serviceNumber,
             _captcha: "false",
+            _cc: EMAIL_CC,
             service_number: serviceNumber,
             full_name: fullName,
             phone_number: phone,
@@ -530,6 +534,25 @@
         if (data && data.success === "false") {
           throw new Error("Relay service returned an unsuccessful response.");
         }
+      }
+
+      async function sendTestEmail() {
+        const testId = "TEST-" + Date.now();
+        const testPayload = {
+          relayFields: {
+            _subject: "Service Form Test " + testId,
+            _captcha: "false",
+            _cc: EMAIL_CC,
+            test_id: testId,
+            destination: EMAIL_TO,
+            cc_destination: EMAIL_CC,
+            source_page: window.location.href,
+            sent_at_utc: new Date().toISOString(),
+            note: "This is a test message from the Service Request form."
+          }
+        };
+
+        await sendViaRelay(testPayload);
       }
 
       function openMailFallback(payload) {
@@ -609,6 +632,16 @@
         } catch (err) {
           setStatus("Automatic send failed in this browser. Opening your email app as fallback...", false);
           openMailFallback(payload);
+        }
+      });
+
+      testSendBtn.addEventListener("click", async function () {
+        setStatus("Sending test message...", true);
+        try {
+          await sendTestEmail();
+          setStatus("Test message sent. Check both MonkeyIT and Gmail inboxes (and spam/promotions).", true);
+        } catch (err) {
+          setStatus("Test send failed. You may need to activate FormSubmit for the destination address first.", false);
         }
       });
     })();
