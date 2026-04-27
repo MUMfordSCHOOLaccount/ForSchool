@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Request</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #cbd5e1;
+      --accent: #0f766e;
+      --accent-2: #0369a1;
+      --error: #b91c1c;
+      --ok: #166534;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.16), transparent 40%),
+        radial-gradient(circle at 85% 15%, rgba(34, 197, 94, 0.14), transparent 40%),
+        linear-gradient(180deg, #e2e8f0, #f8fafc 25%, #f1f5f9 100%);
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    .wrap {
+      width: min(980px, 92vw);
+      margin: 32px auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      letter-spacing: 0.2px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+
+    .intro {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    textarea {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 12px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: 2px solid rgba(3, 105, 161, 0.24);
+      border-color: var(--accent-2);
+    }
+
+    .categories {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .category-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .check-row input[type="checkbox"] {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .sub-field {
+      margin-top: 8px;
+      display: none;
+    }
+
+    .sub-field.active {
+      display: block;
+    }
+
+    .small-help {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .status {
+      min-height: 22px;
+      font-weight: 600;
+      margin-top: 8px;
+      color: var(--error);
+    }
+
+    .status.ok {
+      color: var(--ok);
+    }
+
+    .output {
+      margin-top: 18px;
+      display: none;
+    }
+
+    .output.active {
+      display: block;
+    }
+
+    .output h2 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .request-no {
+      font-weight: 800;
+      color: var(--accent-2);
+    }
+
+    .preview {
+      white-space: pre-wrap;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 760px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .back-link {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <h1>Service Request Form</h1>
+      <a class="back-link" href="index.html">Back to Home</a>
+    </div>
+
+    <div class="card">
+      <p class="intro">Submit your request and a service number will be assigned automatically. Your default email app will open with all details pre-filled for quick sending. I will contact you within 24 hours and within the call time frame you provide below.</p>
+
+      <form id="serviceForm" novalidate>
+        <div class="field">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required>
+        </div>
+
+        <div class="field full">
+          <label for="serviceAddress">Service Address</label>
+          <input id="serviceAddress" name="serviceAddress" type="text" autocomplete="street-address" required>
+        </div>
+
+        <div class="field full">
+          <label for="callDate">Preferred Call Date</label>
+          <input id="callDate" name="callDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label for="callTimeStart">Call Window Start Time</label>
+          <input id="callTimeStart" name="callTimeStart" type="time" required>
+        </div>
+
+        <div class="field">
+          <label for="callTimeEnd">Call Window End Time</label>
+          <input id="callTimeEnd" name="callTimeEnd" type="time" required>
+        </div>
+
+        <div class="field full">
+          <label>Service Category</label>
+          <div class="categories">
+            <div class="category-grid">
+              <div class="check-row">
+                <input id="hvac" type="checkbox" name="category" value="HVAC">
+                <div>
+                  <label for="hvac">HVAC</label>
+                  <div id="hvacSubWrap" class="sub-field">
+                    <input id="hvacUnitType" type="text" placeholder="Unit Type (e.g., Heat Pump, Central Air)">
+                  </div>
+                </div>
+              </div>
+
+              <div class="check-row">
+                <input id="computer" type="checkbox" name="category" value="Computer Repair">
+                <div>
+                  <label for="computer">Computer Repair</label>
+                  <div id="computerSubWrap" class="sub-field">
+                    <input id="computerModel" type="text" placeholder="Computer Model">
+                  </div>
+                </div>
+              </div>
+
+              <div class="check-row">
+                <input id="website" type="checkbox" name="category" value="Website Building/Update">
+                <div>
+                  <label for="website">Website Building/Update</label>
+                  <div id="websiteSubWrap" class="sub-field">
+                    <input id="websiteUrl" type="url" placeholder="Current Website URL (if any)">
+                  </div>
+                </div>
+              </div>
+
+              <div class="check-row">
+                <input id="bug" type="checkbox" name="category" value="Bug Reporting">
+                <div>
+                  <label for="bug">Bug Reporting</label>
+                  <div id="bugSubWrap" class="sub-field">
+                    <textarea id="bugSteps" rows="3" placeholder="Steps to reproduce the issue"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="small-help">Select at least one service category.</div>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="details">Detailed Description</label>
+          <textarea id="details" name="details" rows="5" placeholder="Describe what you need help with..." required></textarea>
+        </div>
+
+        <div class="field full">
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+            <button type="reset" class="btn btn-secondary">Clear Form</button>
+          </div>
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+        </div>
+      </form>
+
+      <section id="output" class="output" aria-live="polite">
+        <h2>Request Submitted: <span id="serviceNumber" class="request-no"></span></h2>
+        <p>I will contact you within 24 hours and within your requested call window.</p>
+        <p>Copy-ready summary:</p>
+        <div id="preview" class="preview"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const EMAIL_TO = "LDaleMumford@gmail.com";
+      const COUNTER_KEY = "serviceRequestCounter";
+      const BASE_NUMBER = 1000;
+
+      const form = document.getElementById("serviceForm");
+      const statusEl = document.getElementById("status");
+      const outputEl = document.getElementById("output");
+      const serviceNumberEl = document.getElementById("serviceNumber");
+      const previewEl = document.getElementById("preview");
+      const callDateEl = document.getElementById("callDate");
+      const callTimeStartEl = document.getElementById("callTimeStart");
+      const callTimeEndEl = document.getElementById("callTimeEnd");
+
+      const fields = {
+        hvac: {
+          checkbox: document.getElementById("hvac"),
+          wrapper: document.getElementById("hvacSubWrap"),
+          input: document.getElementById("hvacUnitType"),
+          label: "HVAC Unit Type"
+        },
+        computer: {
+          checkbox: document.getElementById("computer"),
+          wrapper: document.getElementById("computerSubWrap"),
+          input: document.getElementById("computerModel"),
+          label: "Computer Model"
+        },
+        website: {
+          checkbox: document.getElementById("website"),
+          wrapper: document.getElementById("websiteSubWrap"),
+          input: document.getElementById("websiteUrl"),
+          label: "Website URL"
+        },
+        bug: {
+          checkbox: document.getElementById("bug"),
+          wrapper: document.getElementById("bugSubWrap"),
+          input: document.getElementById("bugSteps"),
+          label: "Bug Steps"
+        }
+      };
+
+      function nextServiceNumber() {
+        const saved = Number(localStorage.getItem(COUNTER_KEY));
+        const current = Number.isFinite(saved) && saved > 0 ? saved : BASE_NUMBER;
+        const next = current + 1;
+        localStorage.setItem(COUNTER_KEY, String(next));
+        return "SR-" + next;
+      }
+
+      function setStatus(message, ok) {
+        statusEl.textContent = message;
+        statusEl.classList.toggle("ok", Boolean(ok));
+      }
+
+      function toggleSubField(fieldObj) {
+        const active = fieldObj.checkbox.checked;
+        fieldObj.wrapper.classList.toggle("active", active);
+        fieldObj.input.required = active;
+        if (!active) {
+          fieldObj.input.value = "";
+        }
+      }
+
+      function getSelectedCategories() {
+        return Object.values(fields)
+          .filter((item) => item.checkbox.checked)
+          .map((item) => item.checkbox.value);
+      }
+
+      function sanitize(v) {
+        return String(v || "").replace(/\r?\n/g, " ").trim();
+      }
+
+      function buildPayload(serviceNumber) {
+        const fullName = sanitize(document.getElementById("fullName").value);
+        const phone = sanitize(document.getElementById("phone").value);
+        const serviceAddress = sanitize(document.getElementById("serviceAddress").value);
+        const callDate = sanitize(callDateEl.value);
+        const callTimeStart = sanitize(callTimeStartEl.value);
+        const callTimeEnd = sanitize(callTimeEndEl.value);
+        const details = sanitize(document.getElementById("details").value);
+        const selected = getSelectedCategories();
+
+        const parts = [];
+        parts.push("Service Number: " + serviceNumber);
+        parts.push("Full Name: " + fullName);
+        parts.push("Phone Number: " + phone);
+        parts.push("Service Address: " + serviceAddress);
+        parts.push("Preferred Call Date: " + callDate);
+        parts.push("Call Window: " + callTimeStart + " to " + callTimeEnd);
+        parts.push("Categories: " + (selected.length ? selected.join("; ") : "None"));
+
+        if (fields.hvac.checkbox.checked) {
+          parts.push(fields.hvac.label + ": " + sanitize(fields.hvac.input.value));
+        }
+        if (fields.computer.checkbox.checked) {
+          parts.push(fields.computer.label + ": " + sanitize(fields.computer.input.value));
+        }
+        if (fields.website.checkbox.checked) {
+          parts.push(fields.website.label + ": " + sanitize(fields.website.input.value));
+        }
+        if (fields.bug.checkbox.checked) {
+          parts.push(fields.bug.label + ": " + sanitize(fields.bug.input.value));
+        }
+
+        parts.push("Detailed Description: " + details);
+        parts.push("Contact Commitment: I will contact you within 24 hours and within the requested call window.");
+
+        const csvHeader = "Service Number,Full Name,Phone Number,Service Address,Preferred Call Date,Call Window Start,Call Window End,Categories,HVAC Unit Type,Computer Model,Website URL,Bug Steps,Detailed Description";
+        const csvRow = [
+          serviceNumber,
+          fullName,
+          phone,
+          serviceAddress,
+          callDate,
+          callTimeStart,
+          callTimeEnd,
+          selected.join(" | "),
+          sanitize(fields.hvac.input.value),
+          sanitize(fields.computer.input.value),
+          sanitize(fields.website.input.value),
+          sanitize(fields.bug.input.value),
+          details
+        ].map((value) => '"' + value.replace(/"/g, '""') + '"').join(",");
+
+        const bodyText = parts.join("\n") + "\n\nCSV Copy Row:\n" + csvHeader + "\n" + csvRow;
+
+        return {
+          subject: "New Service Request " + serviceNumber,
+          bodyText,
+          previewText: bodyText
+        };
+      }
+
+      function validateCategoryRequirements() {
+        const selected = getSelectedCategories();
+        if (!selected.length) {
+          setStatus("Please select at least one service category.", false);
+          return false;
+        }
+        return true;
+      }
+
+      function validateCallWindow() {
+        const start = callTimeStartEl.value;
+        const end = callTimeEndEl.value;
+        if (start && end && start > end) {
+          setStatus("Call window end time must be after the start time.", false);
+          return false;
+        }
+        return true;
+      }
+
+      const today = new Date().toISOString().split("T")[0];
+      callDateEl.min = today;
+
+      Object.values(fields).forEach((fieldObj) => {
+        fieldObj.checkbox.addEventListener("change", function () {
+          toggleSubField(fieldObj);
+          setStatus("", true);
+        });
+        toggleSubField(fieldObj);
+      });
+
+      form.addEventListener("reset", function () {
+        setTimeout(function () {
+          Object.values(fields).forEach(toggleSubField);
+          outputEl.classList.remove("active");
+          setStatus("Form cleared.", true);
+        }, 0);
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        setStatus("", true);
+
+        if (!form.reportValidity()) {
+          setStatus("Please complete all required fields.", false);
+          return;
+        }
+
+        if (!validateCategoryRequirements()) {
+          return;
+        }
+
+        if (!validateCallWindow()) {
+          return;
+        }
+
+        const serviceNumber = nextServiceNumber();
+        const payload = buildPayload(serviceNumber);
+
+        serviceNumberEl.textContent = serviceNumber;
+        previewEl.textContent = payload.previewText;
+        outputEl.classList.add("active");
+        setStatus("Request prepared. Opening your email app...", true);
+
+        const mailto = "mailto:" + EMAIL_TO +
+          "?subject=" + encodeURIComponent(payload.subject) +
+          "&body=" + encodeURIComponent(payload.bodyText);
+
+        window.location.href = mailto;
+      });
+    })();
+  </script>
+</body>
+
+</html>

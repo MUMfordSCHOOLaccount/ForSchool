@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Larry Mumford | IT Portfolio & Services</title>
+  <title>Larry Dale Mumford | IT Services</title>
   <meta name="description"
-    content="Portfolio of Larry Mumford, IT Specialist candidate. Showcasing CompTIA certifications, advanced AI security projects, and professional academic achievements at Sullivan University.">
+    content="Professional site for Larry Dale Mumford, IT Specialist candidate. Showcasing CompTIA certifications, advanced AI security projects, and academic achievements at Sullivan University.">
   <link rel="canonical" href="https://MonkeyIT.Services/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://MonkeyIT.Services/">
-  <meta property="og:title" content="Larry Mumford | IT Portfolio & Services">
+  <meta property="og:title" content="Larry Dale Mumford | IT Services">
   <meta property="og:description"
     content="Explore the technical projects and professional certifications of Larry Mumford. Specialized in AI monitoring systems and advanced networking.">
   <meta property="og:image" content="https://MonkeyIT.Services/images/profile.png">
@@ -20,9 +20,9 @@
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://MonkeyIT.Services/">
-  <meta property="twitter:title" content="Larry Mumford | IT Portfolio & Services">
+  <meta property="twitter:title" content="Larry Dale Mumford | IT Services">
   <meta property="twitter:description"
-    content="Professional IT Portfolio showcasing AI development and CompTIA certifications.">
+    content="Professional IT Services showcasing AI development and CompTIA certifications.">
   <meta property="twitter:image" content="https://MonkeyIT.Services/images/profile.png">
 
   <!-- Modern Fonts -->
@@ -42,9 +42,9 @@
 <body>
 
   <!-- Background Blobs -->
-  <div class="blob" style="top: 10%; left: 10%;"></div>
-  <div class="blob" style="top: 50%; right: 5%;"></div>
-  <div class="blob" style="bottom: 15%; left: 30%;"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
 
   <!-- Crazy Spotlight & Scanner Mode -->
   <div class="spotlight-reveal-overlay" id="spotlightOverlay"></div>
@@ -52,7 +52,7 @@
   <!-- Theme Toggle -->
   <div class="theme-switch-wrapper">
     <label class="theme-switch" for="checkbox">
-      <input type="checkbox" id="checkbox" />
+      <input type="checkbox" id="checkbox" aria-label="Toggle scanner mode" />
       <div class="slider round">
         <i class="fas fa-sun"></i>
         <i class="fas fa-moon"></i>
@@ -64,7 +64,7 @@
   <header>
     <!-- The Hidden Vault & Keypad (Only scannable in Dark Mode) -->
     <div class="vault-tunnel-container" id="vaultContainer">
-      <div class="vault-door" style="background-image: url('images/vault_door.png');">
+      <div class="vault-door">
         <div class="keypad glass" id="keypad">
           <div class="keypad-display" id="keypadDisplay">ACCESS CODE</div>
           <div class="keypad-grid">
@@ -75,7 +75,7 @@
             <button class="key" type="button">7</button><button class="key" type="button">8</button><button class="key"
               type="button">9</button>
             <button class="key action-key" id="clearBtn">C</button><button class="key" type="button">0</button>
-            <button class="key action-key" id="enterBtn"><i class="fas fa-sign-in-alt"></i></button>
+            <button class="key action-key" id="enterBtn" type="button" title="Enter access code" aria-label="Enter access code"><i class="fas fa-sign-in-alt"></i></button>
           </div>
         </div>
       </div>
@@ -87,6 +87,9 @@
       </div>
       <h1 class="hero-title">Larry Mumford</h1>
       <p class="hero-subtitle">Information Technology Specialist • Sullivan University</p>
+      <p class="hero-contact">
+        <a href="mailto:LDaleMumford@MonkeyIT.services">LDaleMumford@MonkeyIT.services</a>
+      </p>
 
       <div class="cta-group">
         <a href="docs/LDaleMumford_IT_Resume.pdf" class="btn btn-primary" download>
@@ -94,6 +97,11 @@
         </a>
         <a href="https://g.dev/tRainManMonkey" target="_blank" class="btn btn-outline" rel="noopener">
           <i class="fab fa-google"></i> Google Dev Profile
+        </a>
+      </div>
+      <div class="cta-subgroup">
+        <a href="service-request.html" class="btn btn-service">
+          <i class="fas fa-clipboard-list"></i> Service Request
         </a>
       </div>
     </div>
@@ -109,10 +117,10 @@
       <div class="certificate-grid reveal">
         <!-- Professional Certifications -->
         <div class="cert-card glass">
-          <i class="fas fa-certificate cert-icon" style="color: #6366f1;"></i>
+          <i class="fas fa-certificate cert-icon cert-icon-blue"></i>
           <h3>CompTIA Networking</h3>
           <p>Competency In Networking</p>
-          <div style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 1rem; line-height: 1.2;">
+          <div class="cert-meta">
             Learner ID: 6-U6-7DCP<br>
             Certificate ID: 6-1C6-VXU763<br>
             Issued: 3/19/2025
@@ -121,10 +129,10 @@
         </div>
 
         <div class="cert-card glass">
-          <i class="fas fa-microchip cert-icon" style="color: #6366f1;"></i>
+          <i class="fas fa-microchip cert-icon cert-icon-blue"></i>
           <h3>TestOut PC Pro</h3>
           <p>Certified PC PRO</p>
-          <div style="font-size: 0.7rem; opacity: 0.7; margin-bottom: 1rem; line-height: 1.2;">
+          <div class="cert-meta">
             Learner ID: 6-U6-7DCP<br>
             Certificate ID: 6-1C6-VLD4LJ<br>
             Issued: 12/11/2024
@@ -159,7 +167,7 @@
         </div>
       </div>
 
-      <div style="text-align: center; margin-top: 4rem;">
+      <div class="gpa-wrap">
         <p class="hero-subtitle">GPA: 3.83 | Graduation Scheduled for Sept 2026</p>
       </div>
     </section>
@@ -184,13 +192,8 @@
           data-screenshot="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=350&h=250">
           <div class="project-tag">In Development</div>
           <h3 class="project-name">Sentry AI (Text)</h3>
-<<<<<<< HEAD
           <p class="project-description">An AI-powered system that uses OpenCV for motion detection and LM Studio for visual analysis. It captures movement, generates text-based descriptions of activity, and features an interactive terminal for querying system status.</p>
           <a href="projects/SentryText.zip" class="btn btn-outline btn-sm" download>Download Code (.zip)</a>
-=======
-          <p class="project-description">An AI-powered camera monitoring system. It learns household faces, schedules,
-            and sends text notifications when anomalies occur. Integrates with local LLMs.</p>
->>>>>>> 43e90e47a266e43237c46101ed105c7179b994e8
         </div>
 
         <!-- Sentry Voice -->
@@ -198,13 +201,8 @@
           data-screenshot="https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&q=80&w=350&h=250">
           <div class="project-tag">In Development</div>
           <h3 class="project-name">Sentry Voice</h3>
-<<<<<<< HEAD
           <p class="project-description">A voice-active monitoring solution integrating speech recognition and local LLM processing. Features a voice interface for real-time security updates, motion-triggered greetings, and audio status reports.</p>
           <a href="projects/SentryVoice.zip" class="btn btn-outline btn-sm" download>Download Code (.zip)</a>
-=======
-          <p class="project-description">Voice-enabled security monitoring. Ask Sentry who is in the house, check
-            schedules, and get audio alerts for suspicious camera activity.</p>
->>>>>>> 43e90e47a266e43237c46101ed105c7179b994e8
         </div>
 
         <!-- Rick-Tac-Toe -->
@@ -213,14 +211,9 @@
           <h3 class="project-name">Rick-Tac-Toe</h3>
           <p class="project-description">A custom-built game written during development explorations. Ready for offline
             play.</p>
-<<<<<<< HEAD
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <div class="rick-downloads">
             <a href="projects/Rick-Tac-Toe.7z" class="btn btn-outline btn-sm" download>Download Game (.7z)</a>
-            <a href="projects/Rick-Tac-Toe/Rick-Tac-ToeFINAL/RickTacToe.exe" class="btn btn-outline btn-sm" download>Just Executable (.exe)</a>
           </div>
-=======
-          <a href="projects/Rick-Tac-Toe.7z" class="btn btn-outline btn-sm" download>Download Game (.7z)</a>
->>>>>>> 43e90e47a266e43237c46101ed105c7179b994e8
         </div>
 
         <!-- Android Game -->
@@ -275,10 +268,10 @@
   <footer>
     <div class="container">
       <p>© 2025 Larry Mumford • MonkeyIT.Services</p>
-      <div style="margin-top: 1rem; opacity: 0.5; font-size: 0.75rem;">
-        <a href="mailto:Lmumfo3853@my.sullivan.edu"
-          style="color: inherit; text-decoration: none;">Lmumfo3853@my.sullivan.edu</a>
-        <span style="margin-left: 20px;">BUILD: v2.6.1.0</span>
+      <div class="footer-meta">
+        <a href="mailto:LDaleMumford@MonkeyIT.services"
+          class="footer-email">LDaleMumford@MonkeyIT.services</a>
+        <span class="footer-build">BUILD: v2.6.1.0</span>
       </div>
     </div>
   </footer>
