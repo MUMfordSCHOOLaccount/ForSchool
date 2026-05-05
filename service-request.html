@@ -5,17 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Service Request</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" href="images/monkeyitservices.png">
+  <link rel="apple-touch-icon" href="images/monkeyitservices.png">
   <style>
     :root {
-      --bg: #f1f5f9;
+      --bg: #edf2fb;
       --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --line: #cbd5e1;
-      --accent: #0f766e;
-      --accent-2: #0369a1;
+      --text: #11203d;
+      --muted: #4f6489;
+      --line: rgba(47, 83, 155, 0.2);
+      --accent: #72e0bb;
+      --accent-2: #2f539b;
       --error: #b91c1c;
-      --ok: #166534;
+      --ok: #1f8f69;
     }
 
     * {
@@ -26,10 +29,7 @@
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.16), transparent 40%),
-        radial-gradient(circle at 85% 15%, rgba(34, 197, 94, 0.14), transparent 40%),
-        linear-gradient(180deg, #e2e8f0, #f8fafc 25%, #f1f5f9 100%);
+      background-color: var(--bg);
       min-height: 100vh;
       line-height: 1.4;
     }
@@ -56,7 +56,8 @@
     .back-link {
       text-decoration: none;
       color: #fff;
-      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      background: var(--accent-2);
+      border: 1px solid var(--accent);
       border-radius: 999px;
       padding: 10px 16px;
       font-weight: 600;
@@ -64,11 +65,11 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(47, 83, 155, 0.16);
       border-radius: 18px;
       padding: 24px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 18px 40px rgba(47, 83, 155, 0.12);
       -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
     }
@@ -117,7 +118,7 @@
 
     input:focus,
     textarea:focus {
-      outline: 2px solid rgba(3, 105, 161, 0.24);
+      outline: 2px solid rgba(47, 83, 155, 0.24);
       border-color: var(--accent-2);
     }
 
@@ -125,7 +126,7 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 14px;
-      background: rgba(248, 250, 252, 0.9);
+      background: rgba(255, 255, 255, 0.86);
     }
 
     .category-grid {
@@ -178,12 +179,13 @@
 
     .btn-primary {
       color: #fff;
-      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      background: var(--accent-2);
+      border: 1px solid var(--accent);
     }
 
     .btn-secondary {
-      background: #e2e8f0;
-      color: #0f172a;
+      background: rgba(47, 83, 155, 0.08);
+      color: var(--text);
     }
 
     .status {
