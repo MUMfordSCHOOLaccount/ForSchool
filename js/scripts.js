@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     enterBtn.addEventListener('click', () => {
-      if (currentCode === "2609") {
+      if (currentCode === "2026") {
         keypadDisp.textContent = "GRANTED";
         keypadDisp.style.color = "#10b981";
         setTimeout(() => {
