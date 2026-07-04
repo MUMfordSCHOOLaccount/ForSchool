@@ -3,200 +3,270 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relevant Bookmarks</title>
+  <title>SENTRY | COMPUTER STUFF BOOKMARKS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #020617;
-      --panel: rgba(255, 255, 255, 0.04);
-      --border: rgba(0, 210, 255, 0.35);
-      --text: #c7f9ff;
-      --accent: #00d2ff;
+      --matrix-green: #00ff41;
+      --citizen-blue: #00d2ff;
+      --bg-dark: #020617;
     }
-    * { box-sizing: border-box; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px;
+      background-color: var(--bg-dark);
+      color: var(--matrix-green);
+      font-family: 'Fira Code', monospace;
+      min-height: 100vh;
+      position: relative;
+      padding: 32px;
     }
-    .wrap {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: 10px;
-      padding: 14px;
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      opacity: 0.2;
     }
-    h1 {
-      margin: 0 0 12px;
-      font-size: 1rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
+
+    .bookmarks-shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--citizen-blue);
+      padding: 15px 22px;
+      border-radius: 99px;
+      background: rgba(0, 210, 255, 0.05);
+      color: var(--citizen-blue);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-family: 'Outfit', sans-serif;
       text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.95rem;
     }
-    .back-link {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: var(--text);
+
+    .home-btn {
+      color: var(--citizen-blue);
       text-decoration: none;
-      border: 1px solid rgba(0, 210, 255, 0.35);
-      background: rgba(0, 210, 255, 0.1);
-      border-radius: 8px;
-      padding: 7px 10px;
-      font-size: 0.84rem;
+      padding: 8px 12px;
+      border: 1px solid var(--citizen-blue);
+      border-radius: 6px;
+      background: rgba(0, 210, 255, 0.12);
+      font-size: 0.85rem;
+      transition: all 0.25s ease;
+      white-space: nowrap;
     }
-    .back-link:hover {
-      border-color: var(--accent);
-      background: rgba(0, 210, 255, 0.2);
+
+    .home-btn:hover {
+      background: var(--citizen-blue);
+      color: var(--bg-dark);
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
     }
-    ul {
-      margin: 0;
-      padding: 0;
+
+    .panel {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.05);
+    }
+
+    .panel-title {
+      color: var(--citizen-blue);
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+
+    .link-list {
       list-style: none;
       display: grid;
-      gap: 8px;
-      max-height: 80vh;
+      gap: 10px;
+      max-height: 72vh;
       overflow-y: auto;
+      padding-right: 6px;
     }
-    a {
-      color: var(--text);
+
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--citizen-blue);
       text-decoration: none;
-      border: 1px solid rgba(0, 210, 255, 0.2);
-      background: rgba(0, 210, 255, 0.06);
+      padding: 10px 12px;
+      border: 1px solid rgba(0, 210, 255, 0.4);
       border-radius: 8px;
-      display: block;
-      padding: 8px 10px;
-      font-size: 0.88rem;
-      line-height: 1.3;
+      background: linear-gradient(90deg, rgba(0, 210, 255, 0.12), rgba(0, 210, 255, 0.04));
+      transition: all 0.25s ease, transform 0.2s ease;
+      font-size: 0.92rem;
+      line-height: 1.35;
       word-break: break-word;
     }
-    a:hover {
-      border-color: var(--accent);
-      background: rgba(0, 210, 255, 0.16);
+
+    .quick-link:hover {
+      background: rgba(0, 210, 255, 0.2);
+      box-shadow: 0 0 14px rgba(0, 210, 255, 0.3);
+      color: #e6fbff;
+      transform: translateY(-1px);
+    }
+
+    .status {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      padding: 6px 2px;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 18px; }
+      .panel { padding: 16px; }
+      .header-title { font-size: 0.82rem; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a class="back-link" href="../admin.html">&larr; Back to Admin</a>
-    <h1>Relevant Bookmarks</h1>
-    <ul>
-      <li><a href="https://www.portablefreeware.com/?id=1123" target="_blank" rel="noopener">- The Portable Freeware Collection</a></li>
-      <li><a href="https://www.startech.com/en-us/networking-io/mr12gi-network-card?srsltid=AfmBOopXm7FQYWC5F1lj4JgeElgE-9-C0uWA70w9G4EHESjKoRWfWypZJN8" target="_blank" rel="noopener">1-Port 2.5GbE M.2 2280 Network Card, Multi-Gigabit Speeds (2.5G/1G/100M/10M), NBASE-T (802.3bz) NIC, M.2 B+M Key, PCIe Ethernet Interface, For SFF/Desktop PCs - TAA</a></li>
-      <li><a href="https://www.lg.com/us/tvs/lg-43uq7070zud-4k-uhd-tv" target="_blank" rel="noopener">43&quot; UQ7070 ZUD series LED 4K UHD TV - 43UQ7070ZUD | LG USA</a></li>
-      <li><a href="https://login.tailscale.com/admin/acls/visual/general-access-rules" target="_blank" rel="noopener">Access controls - Tailscale</a></li>
-      <li><a href="https://www.google.com/search?client=ms-android-verizon&hs=BfBp&sca_esv=651164c6481fa95a&sxsrf=ANbL-n5NUGFqbSJTLTeRXKH44uoM6mdjrQ%3A1768739106766&q=ai+image+to+video+generator+no+restrictions&ved=2ahUKEwiEjpOijJWSAxW4MtAFHZTFEroQ0NsOegUIkAEQAA&biw=384&bih=751&dpr=3.75&aic=0&udm=50&fbs=ADc_l-byipRaccqV0jmfPhi1DgzPtklXGmVkws8Z_lBff884vwWzYGOXmwhR8m6ZBpcqcPLye8XbZYbEMjKIVzRhcfNzBMZ9hkuS5n_k8n4NclRigRqX8RDZLZ2CJ_8Hij0QWEfr0X0likpo4HkfzhTXSAmDbiQOjlf2bLotGgmDgvf7X-xQX5_Ot9CLVwNlGlBfGnPOR7JUi8B4aeuAHvMS6_y3jdzZDdGQVP8mTe5HdmWim8gO5k0&aep=10&ntc=1&mstk=AUtExfC1jqiWmR7lg3l8pp95et3fb1Sn4ayb0YKS9gLO_hWE4_AE1YYZftNmlR0kzROxl6nBnk9qBIPP3yG__0kcUiVn1Vfq9d3FIKEFLgEQgFVa7gcyt72FmS878sT4OYlwwZaYixtw8x8_7PzA5EZRs4DtZmH_0C23qOAAf_-IuW3TuSyIFaj7Y83rUxGFCjk5gHkRpQs8NkpmAOF5Zqb1e2HHoJFQVNRHsbi2DwCUIzRr5FihGD3SlcNmH_TO7HBtChHHdnfESq2zi32NQaOpzpQLO_OoOMQ2mkYV1itDdAKwru2XboTtbw22Z-HvKJMli07mURwAZlhhzbo9HrAHAaifHrETiKVBs2Xj9_PSbQo6LPOGR8oXpimie_Ike4YAtpKPrwob4a5zcQaZ3yms4vP7zCXI__mA-CZ5x1wpd_16p-KNCtJGtChsIMIPurrnN2k0fjbA0MRKcACvJv-BtzDkgIwSCLtVHv5J1QCwy5mKxPAP9_ooRn2dhPCqh1gELf9ZuS4fVB9uZlPuLXBBrtb782T5P6s&csuir=1&mtid=YNNsacqBOu2HptQPxdfW8Ao" target="_blank" rel="noopener">ai image to video generator no restrictions - Google Search</a></li>
-      <li><a href="https://weakpass.com/wordlists/all_in_one.policy.txt" target="_blank" rel="noopener">all_in_one.policy.txt</a></li>
-      <li><a href="https://annas-archive.org/" target="_blank" rel="noopener">Anna’s Archive: LibGen (Library Genesis), Sci-Hub, Z-Library in one place - Anna’s Archive</a></li>
-      <li><a href="http://gaming_pc:9921/" target="_blank" rel="noopener">Anytxt Searcher 1.3.2477 Free</a></li>
-      <li><a href="https://docs.cryptomator.org/security/best-practices/#good-passwords" target="_blank" rel="noopener">Best Practices | Cryptomator Documentation</a></li>
-      <li><a href="https://cheat.sh/hydra" target="_blank" rel="noopener">cheat.sh/hydra</a></li>
-      <li><a href="https://christitus.com/" target="_blank" rel="noopener">Chris Titus Tech | Tech Content Creator</a></li>
-      <li><a href="https://github.com/settings/copilot/features" target="_blank" rel="noopener">Copilot</a></li>
-      <li><a href="https://armur.ai/tutorials/hydra/hydra/custom_wordlist_using_hydra/" target="_blank" rel="noopener">Creating Custom Wordlists and Rules for Hydra | Tutorials</a></li>
-      <li><a href="https://chub.ai/users/Novaciano" target="_blank" rel="noopener">Creator Profile @Novaciano. Bot made by Novaciano.</a></li>
-      <li><a href="https://global.microless.com/product/crucial-t500-1tb-pcie-gen4-nvme-m-2-internal-ssd-up-to-7300mb-s-read-speed-6800-mb-s-write-speed-1-5-million-hours-mtbf-compatible-with-laptop-desktops-ct1000t500ssd8/?currency=usd" target="_blank" rel="noopener">Crucial T500 1TB PCIe Gen4 NVMe M.2 Internal SSD, Up to 7300MB/s Read Speed &amp; 6800 MB/s Write Speed, 1.5 Million Hours MTBF, Compatible with Laptop &amp; Desktops | CT1000T500SSD8 Buy, Best Price. Global Shipping.</a></li>
-      <li><a href="https://developers.google.com/profile/u/me/dashboard" target="_blank" rel="noopener">Dashboard | Google Developer Program  |  Google for Developers</a></li>
-      <li><a href="https://dban.org/" target="_blank" rel="noopener">Data Removal: Darik&#39;s Boot and Nuke - DBAN</a></li>
-      <li><a href="https://deltahub.io/?ref=ENDERPRIZE" target="_blank" rel="noopener">DeltaHub - Improve your workspace wellbeing!</a></li>
-      <li><a href="https://christitus.com/downloads/" target="_blank" rel="noopener">Digital Downloads</a></li>
-      <li><a href="https://www.google.com/amp/s/www.techpowerup.com/download/ati-atiflash/%3famp" target="_blank" rel="noopener">Download AMDVBFlash / ATI ATIFlash (5.0.567) | TechPowerUp</a></li>
-      <li><a href="https://sourceforge.net/projects/flightgear/files/release-2020.3/FlightGear-2020.3.19.exe/download" target="_blank" rel="noopener">Download FlightGear-2020.3.19.exe (FlightGear - Flight Simulator)</a></li>
-      <li><a href="https://nmap.org/download" target="_blank" rel="noopener">Download the Free Nmap Security Scanner for Linux/Mac/Windows</a></li>
-      <li><a href="https://huggingface.co/dphn/Dolphin3.0-Llama3.1-8B" target="_blank" rel="noopener">dphn/Dolphin3.0-Llama3.1-8B · Hugging Face</a></li>
-      <li><a href="https://access.dwservice.net/login.dw?msgerr=I1Nlc3Npb25FeHBpcmVk#s" target="_blank" rel="noopener">DWService</a></li>
-      <li><a href="https://github.com/0x192/universal-android-debloater/wiki/FAQ" target="_blank" rel="noopener">FAQ · 0x192/universal-android-debloater Wiki</a></li>
-      <li><a href="https://console.firebase.google.com/u/0/project/missymjhbartgallery-2180-ed9b4/settings/general/web:M2NkMjFjOWEtNzA3My00Yzg4LTkxMzYtYjM2MDI1YjczODU3" target="_blank" rel="noopener">Firebase app - Project settings - General - Firebase console</a></li>
-      <li><a href="https://studio.firebase.google.com/?utm_source=firebase_studio_marketing&utm_medium=et&utm_campaign=FY25-Q2-firebasestudio_nextlaunch&utm_content=hero_tryfirebasestudio&utm_term=-&pli=1" target="_blank" rel="noopener">Firebase Studio</a></li>
-      <li><a href="https://github.com/copilot/c/40f9b99e-70fd-4a49-b4ee-97f6d89e8843" target="_blank" rel="noopener">Fixing Visual Studio GitHub connection issues · GitHub Copilot</a></li>
-      <li><a href="https://www.openapk.net/fossify-sms-messenger/org.fossify.messages/#versions" target="_blank" rel="noopener">Fossify SMS Messenger APK Free Download - OpenAPK</a></li>
-      <li><a href="https://visualstudio.microsoft.com/free-developer-offers/" target="_blank" rel="noopener">Free Developer Software &amp; Services - Visual Studio</a></li>
-      <li><a href="https://en.lo4d.com/windows/utilities/14" target="_blank" rel="noopener">Free Software Utilities - Download for Windows | Page 14</a></li>
-      <li><a href="https://www.amd.com/en/blogs/2025/how-to-vibe-coding-locally-with-amd-ryzen-ai-and-radeon.html" target="_blank" rel="noopener">Getting Started: Vibe Coding Locally with AMD Ryzen™ AI and Radeon™ Graphics Cards</a></li>
-      <li><a href="https://www.google.com/search?q=ghidra&oq=ghidra&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDQwOTFqMGo5qAIAsAIB&client=ms-android-verizon&sourceid=chrome-mobile&ie=UTF-8" target="_blank" rel="noopener">ghidra - Google Search</a></li>
-      <li><a href="https://github.com/NationalSecurityAgency/ghidra/blob/master/Ghidra/Features/PyGhidra/README.md" target="_blank" rel="noopener">ghidra/Ghidra/Features/PyGhidra/README.md at master · NationalSecurityAgency/ghidra · GitHub</a></li>
-      <li><a href="https://github.com/NationalSecurityAgency/ghidra/blob/master/Ghidra/Features/PyGhidra/src/main/py/README.md" target="_blank" rel="noopener">ghidra/Ghidra/Features/PyGhidra/src/main/py/README.md at master · NationalSecurityAgency/ghidra · GitHub</a></li>
-      <li><a href="https://github.com/NationalSecurityAgency/ghidra?tab=readme-ov-file" target="_blank" rel="noopener">GitHub - NationalSecurityAgency/ghidra: Ghidra is a software reverse engineering (SRE) framework</a></li>
-      <li><a href="https://github.com/smarques84/MockLocationDetector" target="_blank" rel="noopener">GitHub - smarques84/MockLocationDetector: An android library to help detect mock locations</a></li>
-      <li><a href="https://www.google.com/search?q=github%2C+jarvis&rlz=1C1VDKB_enUS1125US1126&oq=github%2C+jarvis&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDQwMDBqMGo3qAIIsAIB&sourceid=chrome&ie=UTF-8" target="_blank" rel="noopener">github, jarvis - Google Search</a></li>
-      <li><a href="https://www.vkbcontrollers.com/products/gladiator-nxt-evo-omni-throttle" target="_blank" rel="noopener">Gladiator NXT EVO Omni Throttle - Left Hand – VKB North America</a></li>
-      <li><a href="https://admob.google.com/v2/payments/overview" target="_blank" rel="noopener">Google AdMob</a></li>
-      <li><a href="https://developers.google.com/" target="_blank" rel="noopener">Google for Developers - from AI and Cloud to Mobile and Web</a></li>
-      <li><a href="https://grok.com/?q=Please+take+my+essay+and+write+a+classical+argument+essay+with+a+" target="_blank" rel="noopener">Grok</a></li>
-      <li><a href="https://hashcat.net/wiki/doku.php?id=hashcat" target="_blank" rel="noopener">hashcat [hashcat wiki]</a></li>
-      <li><a href="https://terminaltools.blogspot.com/2023/11/menu-termux-termux-install-hydra-in.html?m=1" target="_blank" rel="noopener">How to Install and Use Hydra in Termux: A Powerful Password Cracking Tool</a></li>
-      <li><a href="https://gogun.co/products/instant-ronin?dt_id=2987820%3Bap%3A2127895" target="_blank" rel="noopener">Jörg Sprave&#39;s &quot;Instant Ronin&quot; Double Tanto Knives (set of 2) — GoGun.co</a></li>
-      <li><a href="https://jpype.readthedocs.io/en/latest/" target="_blank" rel="noopener">JPype documentation — JPype 1.6.1.dev0 documentation</a></li>
-      <li><a href="https://www.kali.org/" target="_blank" rel="noopener">Kali Linux | Penetration Testing and Ethical Hacking Linux Distribution</a></li>
-      <li><a href="https://www.kali.org/docs/nethunter/" target="_blank" rel="noopener">Kali NetHunter | Kali Linux Documentation</a></li>
-      <li><a href="https://www.kali.org/tools/kali-meta/#kali-tools-passwords" target="_blank" rel="noopener">kali-meta | Kali Linux Tools</a></li>
-      <li><a href="https://www.kismetwireless.net/" target="_blank" rel="noopener">Kismet - Wi-Fi, Bluetooth, RF, and more</a></li>
-      <li><a href="https://thermaltakeusa.com/products/lga1700-am5-upgrade-kit-th-toughliquid-rc-series-cl-o042-st00bl-a" target="_blank" rel="noopener">LGA1700 &amp; AM5 Upgrade Kit (TH, TOUGHLIQUID, RC Series) – Thermaltake USA</a></li>
-      <li><a href="https://ollama.com/library" target="_blank" rel="noopener">library</a></li>
-      <li><a href="https://www.google.com/books/edition/Linux_Basics_for_Hackers_2nd_Edition/asLQEAAAQBAJ?hl=en&gbpv=0&kptab=getbook" target="_blank" rel="noopener">Linux Basics for Hackers, 2nd Edition - Google Books</a></li>
-      <li><a href="https://videotronicmaker.com/arduino-tutorials/lm-studio-local-server-with-tts-microsoft-voice-package-tutorial-with-code/" target="_blank" rel="noopener">LM Studio Local Server with TTS-Microsoft Voice Package</a></li>
-      <li><a href="https://videotronicmaker.com/arduino-tutorials/lm-studio-local-inference-server-nlp-upgrade-using-free-google-text-to-speech-api/" target="_blank" rel="noopener">LM Studio TTS Google Inference Server-API</a></li>
-      <li><a href="https://pastebin.com/9dFZFFS7" target="_blank" rel="noopener">LMStudio MCP - Pastebin.com</a></li>
-      <li><a href="https://support.robertsspaceindustries.com/hc/en-us/articles/360003093114-Loaner-Ship-Matrix?gad_source=1&gad_campaignid=23266070571&gbraid=0AAAAApFOMw34kciJn2EKHAB8j_y2_kGms&gclid=CjwKCAiAuIDJBhBoEiwAxhgyFnzn24NO8_aAMzkgpSbnm2vp1FP4hV9igXxo_5ibRrib1TFrDl-LyxoCCbMQAvD_BwE" target="_blank" rel="noopener">Loaner Ship Matrix – Roberts Space Industries Knowledge Base</a></li>
-      <li><a href="https://bemighty.com/products/mighty-audio-screenless-connection-free-spotify-music-player?gad_source=1&gad_campaignid=20927302223&gbraid=0AAAAADMFBGM1r0MVCFP5Jm4A76PcgnwPr&gclid=Cj0KCQjw_IXQBhCkARIsADqELbJkiHIuFPgQE0QjxDJIuKviw-hGYF0KspP-IKtNrFHavfsca9ffAmAaArRUEALw_wcB" target="_blank" rel="noopener">Mighty 3 - Offline Music Player</a></li>
-      <li><a href="https://moonlight-stream.org/" target="_blank" rel="noopener">Moonlight Game Streaming: Play Your PC Games Remotely</a></li>
-      <li><a href="https://www.movieboxpro.app/" target="_blank" rel="noopener">MovieBoxPro</a></li>
-      <li><a href="https://www.movieboxpro.app/" target="_blank" rel="noopener">MovieBoxPro</a></li>
-      <li><a href="https://huggingface.co/mradermacher/Llama_3.x_70b_L3.3-Dolphin-Eva_fusion_v2-i1-GGUF" target="_blank" rel="noopener">mradermacher/Llama_3.x_70b_L3.3-Dolphin-Eva_fusion_v2-i1-GGUF · Hugging Face</a></li>
-      <li><a href="https://github.com/MrKraken/StarStrings" target="_blank" rel="noopener">MrKraken/StarStrings: MrKraken&#39;s string replacements to add blueprint pools to contracts</a></li>
-      <li><a href="https://www.msys2.org/" target="_blank" rel="noopener">MSYS2</a></li>
-      <li><a href="https://ap.www.namecheap.com/" target="_blank" rel="noopener">My Account Panel - Namecheap.com</a></li>
-      <li><a href="https://developers.google.com/program/my-benefits" target="_blank" rel="noopener">My Benefits | Google Developer Program  |  Google for Developers</a></li>
-      <li><a href="https://www.stationx.net/nmap-cheat-sheet/" target="_blank" rel="noopener">Nmap Cheat Sheet 2025: All the Commands &amp; Flags</a></li>
-      <li><a href="https://huggingface.co/Novaciano/SEX_ROLEPLAY-3.2-1B?not-for-all-audiences=true" target="_blank" rel="noopener">Novaciano/SEX_ROLEPLAY-3.2-1B · Hugging Face</a></li>
-      <li><a href="https://www.oo-software.com/en/" target="_blank" rel="noopener">O&amp;O Software GmbH – Creating Solutions for Windows™</a></li>
-      <li><a href="https://www.openapk.net/openlib/com.app.openlib/apk/download" target="_blank" rel="noopener">Openlib Latest Version Download - OpenAPK</a></li>
-      <li><a href="https://www.electronicfirst.com/dashboard/orders/dFViWVlsL0FUZ3FRMnIwZlA1NmFIZz09" target="_blank" rel="noopener">Order Details - Electronic First</a></li>
-      <li><a href="https://mydrive.ky.gov/_/eservices/_/#68" target="_blank" rel="noopener">Other Services - myDrive - Larry Dale Mumford</a></li>
-      <li><a href="https://app.lizardbyte.dev/packages/?lng=en" target="_blank" rel="noopener">Packages | LizardByte</a></li>
-      <li><a href="https://www.edureka.co/blog/parrot-os-vs-kali-linux/#:~:text=When%20it%20comes%20to%20general,at%20a%20few%20such%20tools." target="_blank" rel="noopener">ParrotOS vs Kali Linux: How to choose the Best | Edureka</a></li>
-      <li><a href="https://us.nothing.tech/products/phone-3a?srsltid=AfmBOopxixPDnYQlmAiGJ5jPTV6z8qaERf1oJzhZzN4S_Z3xD5gW-DjU&Colour=White&Capacity=12%2B256GB" target="_blank" rel="noopener">Phone (3a) | Smartphone | Nothing | US</a></li>
-      <li><a href="https://github.com/pricing" target="_blank" rel="noopener">Pricing · Plans for every developer · GitHub</a></li>
-      <li><a href="https://us.winwingsim.com/mobileview/goods-details.html?id=558&sku_id=101" target="_blank" rel="noopener">PurchaseURSA MINOR Space Joystick-Offical Store for WINWING</a></li>
-      <li><a href="https://github.com/0x192/universal-android-debloater/releases/tag/0.5.1" target="_blank" rel="noopener">Release 0.5.1 · 0x192/universal-android-debloater</a></li>
-      <li><a href="https://github.com/moonlight-stream/moonlight-qt/releases" target="_blank" rel="noopener">Releases · moonlight-stream/moonlight-qt</a></li>
-      <li><a href="https://github.com/nefarius/ViGEmBus/releases" target="_blank" rel="noopener">Releases · nefarius/ViGEmBus</a></li>
-      <li><a href="http://192.168.110.1/cgi-bin/luci/?stamp=1722120689" target="_blank" rel="noopener">Reyee router address</a></li>
-      <li><a href="https://drive.google.com/drive/u/0/mobile/folders/0B0ylunw6hNUfWkNXaXFtZGZpZFk/0B0ylunw6hNUfTlN1OWJFUlhYbEk?usp=sharing_eil_se_dm&resourcekey=0-tIFI7-R8K8nexIWt49j63w&ts=69a879cb&sort=13&direction=a" target="_blank" rel="noopener">Rick &amp; Morty Sound Bites - Google Drive</a></li>
-      <li><a href="https://rufus.ie/en/#google_vignette" target="_blank" rel="noopener">Rufus - Create bootable USB drives the easy way</a></li>
-      <li><a href="https://videotronicmaker.com/arduino-tutorials/running-a-local-inference-server-with-lm-studio/" target="_blank" rel="noopener">Run a Local Server with LM Studio: Tutorial - VTM Systems Store</a></li>
-      <li><a href="https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=835b2a73-6e10-4aa5-a979-21dfda45231c&scope=https%3A%2F%2Fmanagement.azure.com%2F.default%20openid%20profile%20offline_access&redirect_uri=https%3A%2F%2Flabs.azure.com%2Fsignin&client-request-id=8fb69d34-f257-4ccb-86b0-aa7503c86f85&response_mode=fragment&response_type=code&x-client-SKU=msal.js.browser&x-client-VER=2.39.0&client_info=1&code_challenge=b--P_1jEQX8yv-oLV2BKpjUn7iZ72DL1mZlK08T5aHM&code_challenge_method=S256&prompt=select_account&nonce=f82e6fea-aa00-4a82-a95d-715f561f548a&state=eyJpZCI6IjI3YTBhZTc3LWY4ZjUtNGFiZS1hYjViLTVjOTk1NjY2NGJmMCIsIm1ldGEiOnsiaW50ZXJhY3Rpb25UeXBlIjoicmVkaXJlY3QifX0%3D" target="_blank" rel="noopener">Sign in to your account</a></li>
-      <li><a href="https://www.stationx.net/" target="_blank" rel="noopener">StationX - Cyber Security Training and Career Development</a></li>
-      <li><a href="https://www.vkbcontrollers.com/products/stecs-space-throttle-system-max" target="_blank" rel="noopener">STECS Space Throttle System - Max – VKB North America</a></li>
-      <li><a href="https://localhost:47990/pin" target="_blank" rel="noopener">Sunshine</a></li>
-      <li><a href="https://app.lizardbyte.dev/Sunshine/?lng=en-US" target="_blank" rel="noopener">Sunshine | LizardByte</a></li>
-      <li><a href="https://docs.lizardbyte.dev/projects/sunshine/latest/" target="_blank" rel="noopener">Sunshine: Sunshine</a></li>
-      <li><a href="https://grok.com/c/3c6a66c7-295b-4b19-8479-b4901b1036a2?rid=cd80814a-38c2-4e04-925e-ce26ea39cef3" target="_blank" rel="noopener">SuperGrok $30 Subscription &amp; 7-Day Trial - Grok</a></li>
-      <li><a href="https://www.electronicfirst.com/support/tickets/new?type=order" target="_blank" rel="noopener">Support - Electronic First</a></li>
-      <li><a href="https://login.tailscale.com/admin/welcome?refreshed=true" target="_blank" rel="noopener">Tailscale</a></li>
-      <li><a href="https://www.achik.us/termux-commands-list/" target="_blank" rel="noopener">Termux Commands List (Basic to Advanced) – With PDF | 2026</a></li>
-      <li><a href="https://testmem.tz.ru/tm4e.htm" target="_blank" rel="noopener">TestMem support page - TestMem IV</a></li>
-      <li><a href="https://academy.networkchuck.com/library" target="_blank" rel="noopener">The NetworkChuck Academy</a></li>
-      <li><a href="https://christitus.com/windows-tool/" target="_blank" rel="noopener">The Ultimate Windows Utility</a></li>
-      <li><a href="https://www.rand.org/pubs/perspectives/PEA1363-13.html" target="_blank" rel="noopener">The Veterans Left Behind: Eligibility for Department of Veterans Affairs Benefits and Other Than Honorable Discharges | RAND</a></li>
-      <li><a href="https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-x870-plus-wifi/helpdesk_manual?model2Name=TUF-GAMING-X870-PLUS-WIFI" target="_blank" rel="noopener">TUF GAMING X870-PLUS WIFI｜Motherboards｜ASUS Global</a></li>
-      <li><a href="https://www.vkbcontrollers.com/pages/tariffs-faq" target="_blank" rel="noopener">U.S. Tariffs – Frequently Asked Questions – VKB North America</a></li>
-      <li><a href="https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/PropertyName/PropertyName.bindings.cs" target="_blank" rel="noopener">UnityCsReference/Runtime/Export/PropertyName/PropertyName.bindings.cs at master · Unity-Technologies/UnityCsReference · GitHub</a></li>
-      <li><a href="https://portableapps.com/apps/utilities" target="_blank" rel="noopener">Utilities | PortableApps.com</a></li>
-      <li><a href="https://veracrypt.jp/en/Downloads.html" target="_blank" rel="noopener">VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</a></li>
-      <li><a href="https://virpil-controls.us.com/vpc-constellation-alpha-prime-r.html" target="_blank" rel="noopener">VIRPIL US | VPC Constellation ALPHA Prime [R]</a></li>
-      <li><a href="https://virpil-controls.us.com/warbrd-d-hosas-bundle-alpha-prime-edition.html" target="_blank" rel="noopener">VIRPIL US | WarBRD-D H.O.S.A.S Bundle - ALPHA Prime Edition</a></li>
-      <li><a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener">VirusTotal - Home</a></li>
-      <li><a href="https://weakpass.com/wordlists" target="_blank" rel="noopener">Weakpass: biggest wordlists collection</a></li>
-      <li><a href="https://www.google.com/search?q=what+on+a+sata+ssd+makes+it+faster%3F+3d+nand%3F&client=ms-android-verizon&hs=kC9U&sca_esv=3b6d4900261f3af2&sxsrf=ANbL-n5_oVhN4ytViAJVsCa4DZpP4xGBDg%3A1777705067567&ei=a6D1adKcIov_p84Pw72XgQI&biw=384&bih=695&sclient=mobile-gws-wiz-serp&udm=50&fbs=ADc_l-ZMtfrlQ0SU6L2D0-D344flsprUi5NYvvJVflrdjdmmndzc87yxCU-u2_IZZ9ETkTPla4WplT28Mgc926OukcOjcgCNvNT5RF6BPuFRBysccah0A3gYfRiJXJdaE9yoJ1GcwUaH1xlwFus09k-ZgBMnlk4U-yBC2bSzmfvYUaAYuvFpLlHZByNDdpJBVIO5_5gWtVF6Ix58vQQGfbJJdw8b832u34xkZB5ez0rFWkFuJ0Uy4R8&aep=10&ntc=1&mstk=AUtExfBDYUDhHVDD-UI4HLqW4PbfBcQ_c4oX8qoSUQHi2jaK7S6HHlAJU1UESj83zfIU4IkQdo1T3Dea3zgefxw6_K5HwMjCQ_Me8O24_b9GgVNzFFPzK0ly9f7Uq9tjxP_4jvqNg5ReznQxKnxfHLfOw4QhsEr2MEeRl1Ig6JM3RgrPKjaR8NbtC822_LVBC2WGGh9I48O-ZYuvGr3GokUAFTVJS9_GbpLSIN4v57mwl1mclinnfgcyltQ7aEQzcovRu2OPacyMrg7v4N7lNpc64joCP-hM5lzyMH13elcY2rQgYe_2E4EkGxmm3BRwjpwacWhGm4lPNdX9wA&csuir=1&aioh=3&mtid=UqP1aczmEu7bptQPj6H0eA#lfId=ChxjMe&sv=CAYS7AISACLlAgoSNDA4NzI4OTczNDEwNDI0NTQzEhQxNDAxNzM3ODY3ODAyMDM3OTQ3OBoUMTMwNjczNDM4MDAxODA2ODM0NjAiEzU1MzU3MjQ3NzkyMjE5NDA5MTkyEjUzNDcwMzU1ODE0MjAzMjQ2MDoSNTc2NDYyNDk0MDU4MDYzMzk1SgJoZ1IwUENfNTM0NzAzNTU4MTQyMDMyNDYwfFBST0RfUENfNTM0NzAzNTU4MTQyMDMyNDYwoAEd6gEcU2Ftc3VuZyA5ODAgUFJPIE5WTWUgTS4yIFNTRIICEzg4Mjc4MjQzNDgwNzQwNTM0MzOqAnFjb3VsZCB5b3UgcmVjb21tZWQgYSBnb29kLCBmYWlyIHByaWNlZCBudm1lIGdlbiA0IHRoYXQgaXMgMSB0YiwgYW5kIGEgZ29vZCAgZmFpciBwcmljZWQgc3NkIHRoYXQgaXMgZmFzdCBhbmQgMSB0YtACAPACADAAIPeSwV8" target="_blank" rel="noopener">what on a sata ssd makes it faster? 3d nand? - Google Search</a></li>
-      <li><a href="https://console.firebase.google.com/project/whisperverse-xoq33/overview" target="_blank" rel="noopener">WhisperVerse - Firebase console</a></li>
-      <li><a href="https://console.firebase.google.com/project/whisperverse-xoq33/storage" target="_blank" rel="noopener">WhisperVerse - Storage - Firebase console</a></li>
-      <li><a href="https://www.stationx.net/wireshark-cheat-sheet/" target="_blank" rel="noopener">Wireshark Cheat Sheet: All the Commands, Filters &amp; Syntax</a></li>
-      <li><a href="https://www.kali.org/tools/wordlists/" target="_blank" rel="noopener">wordlists | Kali Linux Tools</a></li>
-      <li><a href="https://www.packetlabs.net/posts/wordlists-in-cybersecurity-rockyou-2024-includes-10-billion-stolen-passwords/" target="_blank" rel="noopener">Wordlists in Cybersecurity</a></li>
-    </ul>
+  <canvas id="matrix-canvas"></canvas>
+
+  <div class="bookmarks-shell">
+    <div class="hud-header">
+      <div class="header-title"><i class="fas fa-bookmark"></i> SENTRY // Computer Stuff Bookmarks</div>
+      <a href="../admin.html" class="home-btn"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+    </div>
+
+    <div class="panel">
+      <h1 class="panel-title">Computer Stuff</h1>
+      <div id="status" class="status">Loading bookmarks...</div>
+      <ul id="links" class="link-list" hidden></ul>
+    </div>
   </div>
+
+  <script>
+    // Matrix Rain Effect (same visual language as admin page)
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ日月火水木金土ABCDEF".split("");
+    const fontSize = 14;
+    let columns = canvas.width / fontSize;
+    let drops = Array(Math.floor(columns)).fill(1);
+
+    window.addEventListener('resize', () => {
+      columns = canvas.width / fontSize;
+      drops = Array(Math.floor(columns)).fill(1);
+    });
+
+    function draw() {
+      ctx.fillStyle = 'rgba(2, 6, 23, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0f0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    async function loadComputerStuffLinks() {
+      const status = document.getElementById('status');
+      const linksList = document.getElementById('links');
+
+      try {
+        const response = await fetch('./bookmarks_7_4_26.html');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const bookmarksDoc = parser.parseFromString(html, 'text/html');
+
+        const folderHeader = Array.from(bookmarksDoc.querySelectorAll('h3')).find(
+          (h3) => h3.textContent.trim().toLowerCase() === 'computer stuff'
+        );
+
+        if (!folderHeader) throw new Error('Computer Stuff folder not found in bookmarks_7_4_26.html');
+
+        const folderSibling = folderHeader.nextElementSibling;
+        const folderList =
+          folderSibling?.tagName === 'DL'
+            ? folderSibling
+            : folderSibling?.tagName === 'DD'
+              ? folderSibling.querySelector(':scope > dl') || folderSibling.querySelector('dl')
+              : null;
+
+        if (!folderList || folderList.tagName !== 'DL') {
+          throw new Error('Computer Stuff list structure is invalid');
+        }
+
+        const sourceLinks = Array.from(folderList.querySelectorAll('a')).filter(
+          (a) => a.closest('dl') === folderList
+        );
+
+        sourceLinks.sort((a, b) => {
+          const aText = (a.textContent || '').trim().toLowerCase();
+          const bText = (b.textContent || '').trim().toLowerCase();
+          return aText.localeCompare(bText, undefined, { numeric: true, sensitivity: 'base' });
+        });
+
+        if (!sourceLinks.length) throw new Error('No links found under Computer Stuff');
+
+        const fragment = document.createDocumentFragment();
+        sourceLinks.forEach((sourceLink) => {
+          const href = sourceLink.getAttribute('href');
+          if (!href) return;
+
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.className = 'quick-link';
+          link.href = href;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.innerHTML = `<i class="fas fa-link"></i> ${sourceLink.textContent.trim() || href}`;
+          li.appendChild(link);
+          fragment.appendChild(li);
+        });
+
+        linksList.appendChild(fragment);
+        linksList.hidden = false;
+        status.textContent = `${linksList.children.length} links loaded.`;
+      } catch (error) {
+        status.textContent = 'Unable to load Computer Stuff bookmarks.';
+      }
+    }
+
+    loadComputerStuffLinks();
+  </script>
 </body>
 </html>
-
-
-

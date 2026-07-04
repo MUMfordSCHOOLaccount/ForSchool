@@ -13,6 +13,7 @@
       --matrix-green: #00ff41;
       --citizen-blue: #00d2ff;
       --bg-dark: #020617;
+      --success: #22c55e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,6 +47,7 @@
       border: 1px solid rgba(0, 255, 65, 0.2);
       border-radius: 12px;
       padding: 24px;
+      -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.05);
     }
@@ -61,6 +63,30 @@
       margin-bottom: 20px;
       background: rgba(0, 210, 255, 0.05);
       color: var(--citizen-blue);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .home-btn {
+      color: var(--citizen-blue);
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid var(--citizen-blue);
+      border-radius: 6px;
+      transition: all 0.25s ease;
+      background: rgba(0, 210, 255, 0.12);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .home-btn:hover {
+      background: var(--citizen-blue);
+      color: var(--bg-dark);
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
     }
 
     h1, h2, h3 { font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
@@ -146,6 +172,8 @@
       gap: 10px;
       border-top: 1px solid rgba(0, 210, 255, 0.25);
       padding-top: 14px;
+      max-height: 320px;
+      overflow-y: auto;
     }
 
     .quick-links-title {
@@ -193,6 +221,36 @@
     .quick-link:hover::after {
       transform: translateX(120%);
     }
+
+    .status-online {
+      color: var(--success);
+    }
+
+    .section-spaced-20 {
+      margin-top: 20px;
+    }
+
+    .section-spaced-30 {
+      margin-top: 30px;
+    }
+
+    .referral-code {
+      font-weight: bold;
+    }
+
+    .flex-grow {
+      flex: 1;
+    }
+
+    .file-list {
+      list-style: none;
+      line-height: 2.5;
+    }
+
+    .note-text {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
@@ -204,29 +262,32 @@
     <div class="hud-header glitch">
       <div><i class="fas fa-microchip"></i> SENTRY v2.5.0.9 // ADMIN PANEL</div>
       <div id="clock">09:30:00 </div>
-      <div><i class="fas fa-wifi"></i> SECURE_CONNECTION // UEE_COMMS_STATION</div>
+      <div class="header-actions">
+        <div><i class="fas fa-wifi"></i> SECURE_CONNECTION // UEE_COMMS_STATION</div>
+        <a href="index.html" class="home-btn"><i class="fas fa-house"></i> Main Page</a>
+      </div>
     </div>
 
     <!-- Left Panel: Diagnostics -->
     <div class="panel ship-status">
       <h3 class="citizen-blue">Sentry Diagnostics</h3>
-      <div class="status-item"><span>Status</span><span style="color:var(--success)">ONLINE</span></div>
+      <div class="status-item"><span>Status</span><span class="status-online">ONLINE</span></div>
       <div class="status-item"><span>LLM Core</span><span class="citizen-blue">LM_STUDIO_RAG</span></div>
       <div class="status-item"><span>Vision Core</span><span class="citizen-blue">OPENCV_SENTRY_v1</span></div>
       <div class="status-item"><span>DB Status</span><span>ACTIVE_98%</span></div>
       
-      <h3 class="citizen-blue" style="margin-top:20px;">Hobby: Star Citizen</h3>
+      <h3 class="citizen-blue section-spaced-20">Hobby: Star Citizen</h3>
       <div class="status-item"><span>Org Membership</span><span>UEE_LOYALIST</span></div>
       <div class="status-item"><span>Fleet Capacity</span><span>3 SHIPS</span></div>
-      <div class="status-item"><span>Referral Code</span><span class="citizen-blue" style="font-weight:bold;">STAR-F3NN-QLL6</span></div>
+      <div class="status-item"><span>Referral Code</span><span class="citizen-blue referral-code">STAR-F3NN-QLL6</span></div>
       
       <div class="star-citizen-badge">
         <i class="fas fa-rocket fa-2x citizen-blue"></i>
-        <div style="flex:1;">
+        <div class="flex-grow">
           <strong class="citizen-blue">Space Marshal</strong><br>
           <small>Star Citizen // TrainedManMonkey</small>
         </div>
-        <a href="https://www.robertsspaceindustries.com/enlist?referral=STAR-F3NN-QLL6" target="_blank" class="referral-btn" title="Get 5,000 UEC Starting Credits">
+        <a href="https://www.robertsspaceindustries.com/enlist?referral=STAR-F3NN-QLL6" target="_blank" rel="noopener" class="referral-btn" title="Get 5,000 UEC Starting Credits">
           <i class="fas fa-user-plus"></i>
         </a>
       </div>
@@ -248,20 +309,22 @@
     <!-- Right Panel: Data Summary -->
     <div class="panel">
       <h3 class="citizen-blue">Secure Files</h3>
-      <ul style="list-style:none; line-height:2.5;">
+      <ul class="file-list">
         <li><i class="fas fa-file-pdf"></i> Resume_Full_v3.pdf</li>
         <li><i class="fas fa-database"></i> Training_Data_Faces.db</li>
         <li><i class="fas fa-code"></i> private_repo_sentry.git</li>
         <li><i class="fas fa-user-graduate"></i> Academic_Transcripts.pdf</li>
       </ul>
       
-      <h3 class="citizen-blue" style="margin-top:30px;">Notes</h3>
-      <p style="font-size:0.8rem; opacity:0.8;">Sentry is currently deployed in local mode. All camera feeds are processed via local RAG to ensure zero-data leaks to external servers.</p>
+      <h3 class="citizen-blue section-spaced-30">Notes</h3>
+      <p class="note-text">Sentry is currently deployed in local mode. All camera feeds are processed via local RAG to ensure zero-data leaks to external servers.</p>
 
       <div class="quick-links">
         <div class="quick-links-title">Quick Access</div>
-        <a class="quick-link" href="https://drive.google.com/drive/folders/1a74JwTNw7OjTwlDzQ8Q3FTTK7pouVSZw?usp=drive_link" target="_blank" rel="noopener"><i class="fab fa-google-drive"></i> MonkeyItServices GoogleDrive</a>
-        <a class="quick-link" href="docs/relevant-bookmarks.html" target="_blank" rel="noopener"><i class="fas fa-bookmark"></i> Relevant Bookmarks</a>
+        <a class="quick-link" href="https://access.dwservice.net/login.dw?localeid=en#s" target="_blank" rel="noopener"><i class="fas fa-laptop-code"></i> DWService</a>
+        <a class="quick-link" href="https://drive.proton.me/u/1/DxXD6u4RZUNTyyxLfZyWYQ/folder/_VQSDoN4mL_JKVO8r8aiYw" target="_blank" rel="noopener"><i class="fas fa-shield-alt"></i> Proton Drive</a>
+        <a class="quick-link" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener"><i class="fab fa-google-drive"></i> Google Drive</a>
+        <a class="quick-link" href="docs/relevant-bookmarks.html"><i class="fas fa-bookmark"></i> Useful Links</a>
       </div>
     </div>
   </div>
